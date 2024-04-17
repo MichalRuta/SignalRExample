@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "63e801ae-59d4-4cb0-90ee-1f497f7155af",
+		"name": "Messages",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21332327"
+	},
+	"item": [
+		{
+			"name": "Lest's have a chat :)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7143/message?inputText=Lest%27s%20have%20a%20chat%20%3A%29%20",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7143",
+					"path": [
+						"message"
+					],
+					"query": [
+						{
+							"key": "inputText",
+							"value": "Lest%27s%20have%20a%20chat%20%3A%29%20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "It works",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7143/message?inputText=It%20works%2C%20I%20thinks%20so%20%21%21%21%21%21%21%21%21%21%21%21",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7143",
+					"path": [
+						"message"
+					],
+					"query": [
+						{
+							"key": "inputText",
+							"value": "It%20works%2C%20I%20thinks%20so%20%21%21%21%21%21%21%21%21%21%21%21"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
