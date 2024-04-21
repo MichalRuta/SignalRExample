@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/SignalRExample.Api/bin/Debug/net8.0
+/SignalRExample.Api/obj
+/SignalRExample.Api.Tests/bin/Debug/net8.0
+/SignalRExample.Api.Tests/obj
