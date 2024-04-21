@@ -6,12 +6,12 @@ namespace SignalRExample.Api.SignalR
     {
         public override async Task OnConnectedAsync()
         {
-            await Clients.All.ReceiveMessage($"Attention! {Context.ConnectionId} listens to what's going on ;)");
+            await Clients.All.OnMessageRecieved($"Attention! {Context.ConnectionId} listens to what's going on ;)");
         }
 
         public async Task SendMessage(string message)
         {
-            await Clients.All.ReceiveMessage($"{Context.ConnectionId}: {message}");
+            await Clients.All.OnMessageRecieved($"{Context.ConnectionId}: {message}");
         }
     }
 }

@@ -18,7 +18,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapPost("message", async (string inputText, IHubContext<ChatHub, IChatClient> context) =>
 {
-    await context.Clients.All.ReceiveMessage(inputText);
+    await context.Clients.All.OnMessageRecieved(inputText);
     return Results.Accepted();
 });
 

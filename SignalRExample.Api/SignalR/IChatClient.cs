@@ -2,6 +2,6 @@
 {
     public interface IChatClient
     {
-        Task ReceiveMessage(string message);
+        Task OnMessageRecieved(string message);
     }
 }
