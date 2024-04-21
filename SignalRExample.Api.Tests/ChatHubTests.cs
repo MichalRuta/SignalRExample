@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using SignalRExample.Api.Model;
 using SignalRExample.Api.SignalR;
 
 namespace SignalRExample.Api.Tests
@@ -14,8 +15,6 @@ namespace SignalRExample.Api.Tests
         private readonly HubConnection _connection;
         public ChatHubTests()
         {
-            TestServer server = null;
-
             var webHostBuilder = new WebHostBuilder()
                 .ConfigureServices(services =>
                 {
@@ -31,7 +30,7 @@ namespace SignalRExample.Api.Tests
                     });
                 });
 
-            server = new TestServer(webHostBuilder);
+            var server = new TestServer(webHostBuilder);
 
             this._connection = new HubConnectionBuilder()
                 .WithUrl("http://localhost/chatHub",
@@ -39,6 +38,7 @@ namespace SignalRExample.Api.Tests
                 .Build();
 
         }
+
         [Fact]
         public async Task GivenMessageSent_WhenMessageRecieved_ThenContainSentMessage()
         {
@@ -53,6 +53,49 @@ namespace SignalRExample.Api.Tests
             await _connection.InvokeAsync("SendMessage", message);
 
             echo.Should().Contain(message);
+        }
+
+        [Fact]
+        public async Task GivenMessageSentConnectionId_WhenMessageRecieved_ThenContainSentMessage()
+        {
+            var message = "Integration Testing in Microsoft AspNetCore SignalR";
+            var echo = new OnMessageConnectionIdRecievedRequest();
+            _connection.On<OnMessageConnectionIdRecievedRequest>("OnDirectMessageReceived", msg =>
+            {
+                echo = msg;
+
+            });
+
+            await _connection.StartAsync();
+            await _connection.InvokeAsync("SendDirectMessage", 
+                new OnMessageConnectionIdRecievedRequest(){
+                    Message = message,
+                    ConnectionId = _connection.ConnectionId!});
+
+            echo.Message.Should().Contain(message);
+        }
+
+        [Fact]
+        public async Task GivenMessageSentWrongConnectionId_WhenMessageRecieved_ThenNOTContainSentMessage()
+        {
+            var message = "Integration Testing in Microsoft AspNetCore SignalR";
+            var connectionId = Guid.NewGuid().ToString();
+            var echo = new OnMessageConnectionIdRecievedRequest();
+            _connection.On<OnMessageConnectionIdRecievedRequest>("OnDirectMessageReceived", msg =>
+            {
+                echo = msg;
+
+            });
+
+            await _connection.StartAsync();
+            await _connection.InvokeAsync("SendDirectMessage",
+                new OnMessageConnectionIdRecievedRequest()
+                {
+                    Message = message,
+                    ConnectionId = connectionId
+                });
+
+            echo.Message.Should().BeEmpty();
         }
     }
 }

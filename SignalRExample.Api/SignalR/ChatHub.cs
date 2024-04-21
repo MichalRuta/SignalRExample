@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SignalRExample.Api.Model;
 
 namespace SignalRExample.Api.SignalR
 {
@@ -12,6 +13,11 @@ namespace SignalRExample.Api.SignalR
         public async Task SendMessage(string message)
         {
             await Clients.All.OnMessageRecieved($"{Context.ConnectionId}: {message}");
+        }
+
+        public async Task SendDirectMessage(OnMessageConnectionIdRecievedRequest request)
+        {
+            await Clients.Client(request.ConnectionId).OnDirectMessageReceived(request);
         }
     }
 }
